@@ -47,14 +47,7 @@
 <meta name="apple-mobile-web-app-title" content="Boxenstop">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
-<script>
-  window.OneSignal = window.OneSignal || [];
-  OneSignal.push(function() {
-    OneSignal.init({
-      appId: "4d5df41a-0086-4f11-945a-bd8c5ac98ab6",
-    });
-  });
-</script>
+
 <!-- Start of Async Drift Code -->
 <script>
 "use strict";
@@ -503,6 +496,55 @@ drift.load('msaxxeripz8e');
 <input name="cookieData" type="hidden" data-cookie-customDialogSelector='null' data-cookie-colorText='#424a4d' data-cookie-colorBg='rgba(234, 239, 241, 0.99)' data-cookie-textButton='Einverstanden' data-cookie-colorButton='' data-cookie-colorLink='#424a4d' data-cookie-underlineLink='true' data-cookie-text="Diese Website benutzt Cookies. Mit dem Besuch dieser Webseite erklären Sie sich hiermit und mit unserer Datenschutzerklärung einverstanden. Lesen Sie unsere <a href='datenschutz.html'>Datenschutzerklärung</a>.">
    <div id="scrollToTop" class="scrollToTop mbr-arrow-up"><a style="text-align: center;"><i class="mbr-arrow-up-icon mbr-arrow-up-icon-cm cm-icon cm-icon-smallarrow-up"></i></a></div>
     <input name="animation" type="hidden">
-  
+	
+	<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-messaging.js"></script>
+<script>
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  var firebaseConfig = {
+    apiKey: "AIzaSyB6L6PmXRbRgghHC30UCB2_ZvLwCs3QUwc",
+    authDomain: "boxenstop-db-login.firebaseapp.com",
+    databaseURL: "https://boxenstop-db-login-default-rtdb.firebaseio.com",
+    projectId: "boxenstop-db-login",
+    storageBucket: "boxenstop-db-login.appspot.com",
+    messagingSenderId: "1009802942300",
+    appId: "1:1009802942300:web:9b836033f59351b8f8d399",
+    measurementId: "G-38YVYXV69B"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+  const messaging = firebase.messaging();
+  // Add the public key generated from the console here.
+messaging.getToken({vapidKey: "BFmUvtzEUTjkeKuGQUThubZoOGCSkAK3ASW0yXARJib2jwp08RK7khvLs5FQipLVebFGDFZilj7nedK751fl4Ac"});
+
+// Get registration token. Initially this makes a network call, once retrieved
+// subsequent calls to getToken will return from cache.
+messaging.getToken({vapidKey: 'BFmUvtzEUTjkeKuGQUThubZoOGCSkAK3ASW0yXARJib2jwp08RK7khvLs5FQipLVebFGDFZilj7nedK751fl4Ac'}).then((currentToken) => {
+  if (currentToken) {
+    sendTokenToServer(currentToken);
+    updateUIForPushEnabled(currentToken);
+  } else {
+    // Show permission request.
+    console.log('No registration token available. Request permission to generate one.');
+    // Show permission UI.
+    updateUIForPushPermissionRequired();
+    setTokenSentToServer(false);
+  }
+}).catch((err) => {
+  console.log('An error occurred while retrieving token. ', err);
+  showToken('Error retrieving registration token. ', err);
+  setTokenSentToServer(false);
+});
+</script>
+
+
+  <script src="firebase-messaging-sw.js"></script>
 </body>
 </html>
